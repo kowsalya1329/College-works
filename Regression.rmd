@@ -1,0 +1,44 @@
+---
+title: "Untitled"
+author: "Marien  Bernard (20MDT1046)"
+date: "14/11/2020"
+output: html_document
+---
+
+```{r,echo=TRUE}
+a<-airquality
+summary(a)
+b<-na.omit(a)
+
+summary(b)
+
+library(mice)
+library(dplyr)
+library(mi)
+library(Hmisc)
+Ozone=impute(a$Ozone,mean)
+Solar=impute(a$Solar.R,mean)
+
+a1=airquality$Ozone
+a2=airquality$Solar.R
+Wind=airquality$Wind
+Temp=airquality$Temp
+Month=airquality$Month
+Day=airquality$Day
+
+df=data.frame(Ozone,Solar,Wind,Temp,Month,Day)
+df
+summary(df)
+
+new=df%>% select(Wind,Temp)
+new
+
+plot(x=new$Wind,y=new$Temp,xlab="Wind",ylab="Temperature",main="Wind Vs Temperature")
+
+x1=new$Wind
+x2=new$Temp
+lm(x1~x2)
+
+plot(x1,x2,abline(lm(x2~x1)))
+```
+
