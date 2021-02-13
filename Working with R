@@ -1,0 +1,65 @@
+f<-read.csv(file.choose())
+#OIL production
+
+#1
+summary(f)
+fBasics::basicStats(f)
+dim(f)
+#2
+c<-na.omit(f)
+summary(c)
+dim(c)
+#3
+f$oil[is.na(f$oil)]<-mean(f$oil,na.rm=TRUE)
+f$expenditure[is.na(f$expenditure)]<-mean(f$expenditure,na.rm = TRUE)
+
+summary(f)
+#4
+plot(f$expenditure,f$production,xlab="Expenditure",ylab="Production",xlim=c(60,100),ylim=c(60,100))
+#5
+reg1 <- lm(f$expenditure~f$production) 
+abline(reg1)
+
+
+#6
+a<-coef(reg1)[1]
+x<-coef(reg1)[2]
+
+print(a)
+print(x)
+
+x1=25
+y1=a+x*x1
+print(y1)
+
+x2=110
+
+y2=a+x*x2
+print(y2)
+
+
+#7
+pca_f=prcomp(f[,c(2:5)],center = T,scale. = T)
+summary(pca_f)$importance[2,]
+
+
+#8along with 9
+
+
+set.seed(200)
+k1=kmeans(f[,2:5],1,nstart = 30)
+print(k1)
+sse1.km<-(k1$withinss)  #9
+print(sse1.km)
+
+
+k2=kmeans(f[,2:5],2,nstart = 32)
+print(k2)
+sse2.km<-(k2$withinss)  #9
+print(sse2.km)
+
+
+k3=kmeans(f[,2:5],3,nstart = 34)
+print(k3)
+sse3.km<-(k3$withinss)  #9
+print(sse3.km)
